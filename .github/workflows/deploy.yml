@@ -22,7 +22,8 @@ jobs:
       - name: Build frontend
         run: |
           cd frontend
-          NEXT_PUBLIC_API_URL=http://localhost:8000 npm run build
+          echo "API URL is: $NEXT_PUBLIC_API_URL"
+          NEXT_PUBLIC_API_URL=https://dummyjson.com npm run build
 
       # Backend setup
       - name: Install backend dependencies
