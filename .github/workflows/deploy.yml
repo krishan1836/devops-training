@@ -10,36 +10,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout repo
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Setup Node.js
-      - name: Setup Node
+      # ✅ FORCE Node 20
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: 20
+          node-version: '20'
 
-      # Install frontend dependencies
+      - name: Verify Node version
+        run: node -v
+
+      # Frontend
       - name: Install frontend dependencies
         run: |
           cd frontend
           npm install
 
-      # Build frontend (with safe API URL)
       - name: Build frontend
         run: |
           cd frontend
           export NEXT_PUBLIC_API_URL=https://dummyjson.com
           echo "API URL is: $NEXT_PUBLIC_API_URL"
           npm run build
-      # Setup Python
+
+      # Backend
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
-          python-version: 3.10
+          python-version: '3.10'
 
-      # Install backend dependencies
       - name: Install backend dependencies
         run: |
           cd backend
