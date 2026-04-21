@@ -24,23 +24,10 @@ export default function Home() {
   const [data, setData] = useState<{ status?: string } | null>(null);
 
   useEffect(() => {
-    async function fetchData() {
-      try {
-        console.log("API URL:", process.env.NEXT_PUBLIC_API_URL);
-
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/api/...`
-        );
-
-        const json = await res.json();
-        setData(json);
-      } catch (error) {
-        console.log("API error:", error);
-        setData({ status: "API not reachable" });
-      }
-    }
-
-    fetchData();
+    fetch(`${process.env.NEXT_PUBLIC_API_URL}/api`)
+      .then((res) => res.json())
+      .then((data) => setData(data))
+      .catch(() => setData({ status: "Backend not reachable" }));
   }, []);
 
   return (
