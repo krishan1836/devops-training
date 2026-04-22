@@ -7,7 +7,7 @@ export default function Home() {
 
   useEffect(() => {
     const baseUrl =
-      process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000";
+      process.env.NEXT_PUBLIC_API_URL || "https://devops-training-37b8.onrender.com";
 
     fetch(`${baseUrl}/api`)
       .then((res) => res.json())
