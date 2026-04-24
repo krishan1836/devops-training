@@ -7,12 +7,18 @@ export default function Home() {
 
   useEffect(() => {
     const baseUrl =
-      process.env.NEXT_PUBLIC_API_URL || "https://devops-training-37b8.onrender.com";
+      process.env.NEXT_PUBLIC_API_URL ||
+      "https://devops-training-37b8.onrender.com"; // 👈 hard fallback
+
+    console.log("Calling API:", baseUrl); // 👈 debug
 
     fetch(`${baseUrl}/api`)
       .then((res) => res.json())
       .then((data) => setData(data))
-      .catch(() => setData({ status: "Backend not reachable" }));
+      .catch((err) => {
+        console.log("Fetch error:", err);
+        setData({ status: "Backend not reachable" });
+      });
   }, []);
 
   return (
