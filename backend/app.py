@@ -19,3 +19,8 @@ def home():
 @app.get("/api")
 def api():
     return {"status": "Backend running"}
+
+@app.get("/test")
+def test():
+    print("TEST HIT")
+    return {"ok": True}
