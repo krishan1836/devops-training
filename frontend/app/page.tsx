@@ -3,8 +3,7 @@
 import { useEffect, useState } from "react";
 
 export default function Home() {
-  const [data, setData] = useState<string>("Loading...");
-  const [error, setError] = useState<string>("");
+  const [data, setData] = useState<string | null>(null);
 
   useEffect(() => {
     const baseUrl =
@@ -14,22 +13,26 @@ export default function Home() {
     console.log("Calling API:", baseUrl);
 
     fetch(`${baseUrl}/api`)
-      .then(async (res) => {
-        if (!res.ok) throw new Error("API failed");
-        const json = await res.json();
-        console.log("Response:", json);
-        setData(json.status);
+      .then((res) => res.json())
+      .then((res) => {
+        console.log("API response:", res);
+        setData(res.status);
       })
       .catch((err) => {
-        console.error("Fetch error:", err);
-        setError("Backend not reachable");
+        console.error(err);
+        setData("Backend not reachable");
       });
   }, []);
+
+  // ✅ IMPORTANT: avoid hydration mismatch
+  if (!data) {
+    return <p>Loading...</p>;
+  }
 
   return (
     <div>
       <h1>Frontend Connected</h1>
-      <p>{error ? error : data}</p>
+      <p>{data}</p>
     </div>
   );
 }
